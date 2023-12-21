@@ -1,18 +1,6 @@
 // import React from 'react';
 
-// const IndexPage = () => {
-//   return (
-//     <div>
-//       <h1>Welcome to Next.js!</h1>
-//     </div>
-//   );
-// };
-
-// export default IndexPage
-
-// import React from 'react';
-
-// function IndexPage() {
+// function Test() {
 //   const name = 'John Doe';
 //   const items = ['Apple', 'Banana', 'Cherry'];
 
@@ -36,4 +24,4 @@
 //   )
 // }
 
-// export default IndexPage;
+// export default Test;

@@ -13,6 +13,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.pagination import PageNumberPagination
 
+from rest_framework import filters
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Article, Comment, Author
@@ -38,6 +40,40 @@ class ArticleViewSet(viewsets.ModelViewSet):
     # 해당 뷰셋의 모든 액션에 대해 인증된 사용자만이 접근할 수 있도록 설정
     permission_classes = [IsAuthenticated]
     
+    # 페이지네이션 활성화
+    pagination_class = PageNumberPagination
+    
+    # 필터링
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    # SearchFilter, OrderingFilter라는 두 가지 내장된 필터 백엔드를 활성화
+    search_fields = ['title', 'author']
+    # 지정된 필드(title, author)를 기준으로 검색을 수행
+    ordering_fields = ['title', 'create_at']
+    # 지정된 필드(title, created_at)를 기준으로 정렬을 수행
+    
+    # 사용자 정의 필터링 및 정렬 로직 구현
+    def get_queryset(self):
+        queryset = Article.objects.all()
+        # 사용자 정의 필터링 및 로직 구현
+        
+        # 요청에서 필터링 매개변수를 가져옴(ex: 쿼리 매개변수)
+        title = self.request.query_params.get('title', None)
+        author = self.request.query_params.get('author', None)
+        
+        # 매개변수를 기반으로 쿼리셋에 필터링 및 정렬을 적용합니다.
+        # 필터링
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        if author:
+            queryset = queryset.filter(author__icontains=author)
+            
+        # 정렬
+        ordering = self.request.query_params.get('ordering', None)
+        if ordering in self.ordering_fields:
+            queryset = queryset.order_by(ordering)
+        
+        return queryset
+        
     # 뷰셋에 사용자 정의 동작 추가
     @action(detail=True, methods=['post'])
     def mark_as_read(self, request, pk=None):
@@ -53,6 +89,14 @@ class ArticleViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        
+# 필터링 기능
+class CustomFilterBackend(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        # 필터링 로직 구현
+        return queryset
+    # CustomFilterBackend 사용저 정의 필터 백엔드 생성, filter_queryset 메서드를 오버드라이브
     
 
 class UserRegistrationView(CreateAPIView):
