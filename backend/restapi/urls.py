@@ -7,7 +7,7 @@ router = DefaultRouter()
 router.register(r'articles', ArticleViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     # path('articles/', views.article_list, name='article_list'),
     # path('articles/<int:article_pk>/', views.article_detail, name='article_detail'),
     # path('comments/', views.comment_list, name='comment_list'),

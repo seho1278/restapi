@@ -692,4 +692,18 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+# etc
+
+.idea
+db.sqlite3
+*.pyc
+__pycache__
+logs
+myenv
+node_modules
+.DS_Store
+migrations
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,git,python,django,node,nextjs,reactnative,react

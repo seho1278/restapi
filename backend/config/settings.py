@@ -14,6 +14,7 @@ from pathlib import Path
 from rest_framework import permissions
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,9 +34,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'restapi',
+    # 'restapi',
+    # 'fine_tuning_chatbot',
+    # Django CORS 설정
+    'corsheaders',
+    'articles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     'drf_yasg',
     # 'rest_framework_docs',
     'django.contrib.admin',
@@ -47,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,20 +141,20 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',        
-    ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
-        # API 데이터 필터링에 사용되는 기본 필터 백엔드를 지정
-        # API 클라이언트가 사용할 수 있는 필터링 옵션을 정의
-    ],    
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',        
+    # ],
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     'rest_framework.filters.SearchFilter',
+    #     'rest_framework.filters.OrderingFilter',
+    #     # API 데이터 필터링에 사용되는 기본 필터 백엔드를 지정
+    #     # API 클라이언트가 사용할 수 있는 필터링 옵션을 정의
+    # ],    
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.SessionAuthentication',
-    #     'rest_framework.authentication.BasicAuthentication',
+    #     # 'rest_framework.authentication.SessionAuthentication',
+    #     # 'rest_framework.authentication.BasicAuthentication',
     #     'rest_framework.authentication.TokenAuthentication',
-    #     'restapi.authentication.CustomAuthentication',
+    #     # 'restapi.authentication.CustomAuthentication',
     # ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
@@ -156,17 +163,32 @@ REST_FRAMEWORK = {
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
     #   'rest_framework_simplejwt.authentication.JWTAuthentication',  
     # ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    # 페이지네이션, 크기 정의
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 10,
+    # # 페이지네이션, 크기 정의
     
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
-        # 클라이언트가 API에 요청을 할 수 있는 속도를 제한
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day',
-    }
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle',
+    #     # 클라이언트가 API에 요청을 할 수 있는 속도를 제한
+    # ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '100/day',
+    #     'user': '1000/day',
+    # }
 }
+
+# CORS 설정
+CORS_ORIGIN_WHITELIST = [
+    # Cross-Origin 요청을 허용할 도메인 설정
+    'http://localhost:3000',
+]
+
+CORS_ALLOWED_ORIGIN =[
+    'http://localhost:3000',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+# 모든 도메인에서 요청 허용 백엔드를 잠재적인 보안 위협에 노출 시킬 수 있으므로 신중하게 사용/ 대신 화이트리스트에 구체적인 도메인을 명시하는 것이 권장됨
+
+CORS_ALLOWED_CREDENTIALS = True

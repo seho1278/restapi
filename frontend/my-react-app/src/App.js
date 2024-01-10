@@ -1,55 +1,31 @@
-// import logo from './logo.svg';
-// import './App.css';
+import './App.css';
+import './static/css/index.css';
+import Header from './components/Header/Header';
+import Nav from './components/Nav/Nav'
+import Main from './components/Main/Main'
+import ArticleList from './components/articles/ArticleList';
+import ArticleDetail from './components/articles/ArticleDetail';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 
-import React from 'react';
-
-function Test() {
-  const name = 'John Doe';
-  const items = ['Apple', 'Banana', 'Cherry'];
-
+function App() {
   return (
-    <div className='Test'>
-      <h1>Hello, {name}!</h1>
-      <p className='intro'>This is an introduction paragraph.</p>
-
-      <ul>
-        {items.map((item, index) => <li key={index}>{item}</li>)}
-      </ul>
-
-      <button onClick={() => { alert('Button is clicked'); }}>
-        Click me
-      </button>
-
-      <input type='text' placeholder='Enter some text' />
-
-      <img src='https://i.imgur.com/MK3eW3Am.jpg' alt='placeholder'/>
+    <div>
+      <Router basename='/'>
+        <header><Header /></header>
+        <Nav />
+        <section className='Container'>
+          <Routes>
+            <Route path='/' element={<Main />}></Route>
+            <Route path='/articles/*' element={<ArticleList />}></Route>
+            <Route path='/articles/:article_pk/*' element={<ArticleDetail />}></Route>
+          </Routes>
+        </section>
+      </Router>
     </div>
-  )
+  );
 }
 
-export default Test;
+export default App;
