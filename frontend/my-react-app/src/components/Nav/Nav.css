@@ -2,7 +2,40 @@ ul li {
   list-style-type: none;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+a:active {
+  color: #000;
+}
+
+a:visited {
+  color: #000;
+}
+
+.navContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Logo {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 15px;
+  line-height: 1.5rem;
+}
+
 .navBar {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbarMenu {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 15px;
 }

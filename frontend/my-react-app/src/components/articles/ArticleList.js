@@ -22,16 +22,31 @@ function ArticleList() {
   return (
     <div>
       <h1>Article List</h1>
-      <ul>
-        {articles.map(article => (
-          <li key={article.id}>
-            <Link to={`/articles/${article.id}/`}>
-              <p>title: {article.title}</p>
-            </Link>
-            <p>content: {article.content}</p>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>views</th>
+            <th>thumb</th>
+            <th>created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {articles.map(article => (
+            <tr key={article.id}>
+              <td>{article.id}</td>
+              <td>Author</td>
+              <td><Link to={`/articles/${article.id}/`}>{article.title}</Link></td>
+              <td>views</td>
+              <td>thumb</td>
+              <td>{article.created_at}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Link to={'/articles/create'}>글쓰기</Link>
     </div>
   )
 };
