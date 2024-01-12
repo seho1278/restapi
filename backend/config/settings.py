@@ -39,9 +39,15 @@ INSTALLED_APPS = [
     # Django CORS 설정
     'corsheaders',
     'articles',
+    'accounts',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
     'drf_yasg',
     # 'rest_framework_docs',
     'django.contrib.admin',
@@ -61,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -149,13 +156,15 @@ REST_FRAMEWORK = {
     #     'rest_framework.filters.OrderingFilter',
     #     # API 데이터 필터링에 사용되는 기본 필터 백엔드를 지정
     #     # API 클라이언트가 사용할 수 있는 필터링 옵션을 정의
-    # ],    
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     # 'rest_framework.authentication.SessionAuthentication',
-    #     # 'rest_framework.authentication.BasicAuthentication',
-    #     'rest_framework.authentication.TokenAuthentication',
-    #     # 'restapi.authentication.CustomAuthentication',
     # ],
+    'DATETIME_FORMAT': "%m/%d/%Y %I: %M%P",
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # 'restapi.authentication.CustomAuthentication',
+    ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
     #     # 인증된 사용자만 액세스 할 수 있도록 설정
@@ -192,3 +201,26 @@ CORS_ORIGIN_ALLOW_ALL = True
 # 모든 도메인에서 요청 허용 백엔드를 잠재적인 보안 위협에 노출 시킬 수 있으므로 신중하게 사용/ 대신 화이트리스트에 구체적인 도메인을 명시하는 것이 권장됨
 
 CORS_ALLOWED_CREDENTIALS = True
+
+# AUTH_USER_MODEL = 'mail.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backend.console.EmailBackend'
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_SESSION_REMEMBER = True
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+
